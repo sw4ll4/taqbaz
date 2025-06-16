@@ -13,9 +13,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/register",response_model= UserOut)
+@router.post("/register",response_model=UserOut)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     return Create_user(user, db)
-
-
 
