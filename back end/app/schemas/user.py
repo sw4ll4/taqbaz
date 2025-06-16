@@ -13,3 +13,11 @@ class UserOut(BaseModel):
     class config:
         orm_mode = True
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
+class Userlogin(BaseModel):
+    username: str
+    password: str
+
