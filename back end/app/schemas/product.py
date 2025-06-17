@@ -9,6 +9,6 @@ class ProductCreate(BaseModel):
 class ProductOut(ProductCreate):
     id: int
     owner_id: int
-
+    price: Optional[int]
     class config:
         orm_mode = True
