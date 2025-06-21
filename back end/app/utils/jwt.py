@@ -36,3 +36,22 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credential_exception
     return user
+
+def get_current_user_id(token: str = Depends(oauth2_scheme)):
+    credential_exception = HTTPException(
+        status_code = status.HTTP_401_UNAUTHORIZED,
+        detail = "could not validate credential",
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credential_exception
+    except JWTError:
+        raise credential_exception
+    
+    db = Sessionlocal()
+    user = db.query(User).filter(User.username == username).first()
+    if user is None:
+        raise credential_exception
+    return user
